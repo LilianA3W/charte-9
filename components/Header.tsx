@@ -7,7 +7,14 @@ import Logo from "./Logo";
 import { Button } from "./ui";
 import { NAV } from "@/lib/data";
 
-export default function Header() {
+// "overhang" : logo en onglet qui déborde sous la barre (≥ lg), pour les clients
+// qui veulent un logo plus grand. Il se compacte au scroll. Mobile inchangé.
+export default function Header({
+  variant = "default",
+}: {
+  variant?: "default" | "overhang";
+}) {
+  const overhang = variant === "overhang";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -50,9 +57,31 @@ export default function Header() {
       >
         <div className="mx-auto flex h-20 w-full max-w-[1200px] items-center justify-between px-6 sm:px-10 lg:h-24 xl:px-0">
           <div className="flex items-center gap-8">
-            <Link href="/" aria-label="Accueil" className="block shrink-0">
-              <Logo className="h-12 w-auto lg:h-14" />
-            </Link>
+            {overhang ? (
+              <Link
+                href="/"
+                aria-label="Accueil"
+                className="block shrink-0 lg:flex lg:h-24 lg:items-start"
+              >
+                <span
+                  className={`block lg:relative lg:z-10 lg:rounded-b-2xl lg:border-x lg:border-b lg:border-line lg:bg-white lg:px-6 lg:pb-4 lg:pt-3 lg:transition-all lg:duration-300 ${
+                    scrolled
+                      ? "lg:shadow-none"
+                      : "lg:shadow-[0_14px_30px_-14px_rgba(74,26,60,0.3)]"
+                  }`}
+                >
+                  <Logo
+                    className={`h-12 w-auto max-w-[220px] object-contain transition-all duration-300 ${
+                      scrolled ? "lg:h-[4.5rem]" : "lg:h-20 xl:h-[6.5rem]"
+                    }`}
+                  />
+                </span>
+              </Link>
+            ) : (
+              <Link href="/" aria-label="Accueil" className="block shrink-0">
+                <Logo className="h-12 w-auto lg:h-14" />
+              </Link>
+            )}
 
             <nav aria-label="Navigation principale" className="hidden lg:block">
               <ul className="flex items-center gap-9">
