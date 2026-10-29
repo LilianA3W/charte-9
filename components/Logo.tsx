@@ -17,10 +17,10 @@ export default function Logo({
     />
   ) : (
     <img
-      src="/charte9-figma/logo.svg"
-      alt="Votre entreprise"
+      src="/charte9-figma/logo-maison-selene.png"
+      alt="Maison Sélène"
       width={112}
-      height={56}
+      height={112}
       className={className}
     />
   );

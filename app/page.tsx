@@ -12,7 +12,7 @@ import Services from "@/components/Services";
 export default function Home() {
   return (
     <>
-      <Header variant="overhang" />
+      <Header variant="overhang-round" />
       <main>
         <Hero />
         <QuickAccess />

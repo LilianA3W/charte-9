@@ -9,12 +9,15 @@ import { NAV } from "@/lib/data";
 
 // "overhang" : logo en onglet qui déborde sous la barre (≥ lg), pour les clients
 // qui veulent un logo plus grand. Il se compacte au scroll. Mobile inchangé.
+// "overhang-round" : même principe pour un logo circulaire, sans onglet, le
+// cercle déborde directement avec une ombre.
 export default function Header({
   variant = "default",
 }: {
-  variant?: "default" | "overhang";
+  variant?: "default" | "overhang" | "overhang-round";
 }) {
-  const overhang = variant === "overhang";
+  const round = variant === "overhang-round";
+  const overhang = variant === "overhang" || round;
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -63,19 +66,29 @@ export default function Header({
                 aria-label="Accueil"
                 className="block shrink-0 lg:flex lg:h-24 lg:items-start"
               >
-                <span
-                  className={`block lg:relative lg:z-10 lg:rounded-b-2xl lg:border-x lg:border-b lg:border-line lg:bg-white lg:px-6 lg:pb-4 lg:pt-3 lg:transition-all lg:duration-300 ${
-                    scrolled
-                      ? "lg:shadow-none"
-                      : "lg:shadow-[0_14px_30px_-14px_rgba(74,26,60,0.3)]"
-                  }`}
-                >
+                {round ? (
                   <Logo
-                    className={`h-12 w-auto max-w-[220px] object-contain transition-all duration-300 ${
-                      scrolled ? "lg:h-[4.5rem]" : "lg:h-20 xl:h-[6.5rem]"
+                    className={`h-12 w-auto rounded-full transition-all duration-300 lg:relative lg:z-10 lg:mt-2 lg:ring-1 lg:ring-line ${
+                      scrolled
+                        ? "lg:h-[4.5rem] lg:shadow-none"
+                        : "lg:h-24 lg:shadow-[0_14px_30px_-12px_rgba(74,26,60,0.35)] xl:h-32"
                     }`}
                   />
-                </span>
+                ) : (
+                  <span
+                    className={`block lg:relative lg:z-10 lg:rounded-b-2xl lg:border-x lg:border-b lg:border-line lg:bg-white lg:px-6 lg:pb-4 lg:pt-3 lg:transition-all lg:duration-300 ${
+                      scrolled
+                        ? "lg:shadow-none"
+                        : "lg:shadow-[0_14px_30px_-14px_rgba(74,26,60,0.3)]"
+                    }`}
+                  >
+                    <Logo
+                      className={`h-12 w-auto max-w-[220px] object-contain transition-all duration-300 ${
+                        scrolled ? "lg:h-[4.5rem]" : "lg:h-20 xl:h-[6.5rem]"
+                      }`}
+                    />
+                  </span>
+                )}
               </Link>
             ) : (
               <Link href="/" aria-label="Accueil" className="block shrink-0">
